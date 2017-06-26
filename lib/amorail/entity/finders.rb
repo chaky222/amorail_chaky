@@ -14,7 +14,7 @@ module Amorail # :nodoc: all
         rec
       end
 
-      def find_all(*ids, params = {})
+      def find_all(ids, params = {})
         ids = ids.first if ids.size == 1 && ids.first.is_a?(Array)
         params.merge!({id: ids})
         response = client.safe_request(
