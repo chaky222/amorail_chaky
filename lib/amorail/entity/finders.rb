@@ -14,12 +14,12 @@ module Amorail # :nodoc: all
         rec
       end
 
-      def find_all(*ids)
+      def find_all(*ids, params = {})
         ids = ids.first if ids.size == 1 && ids.first.is_a?(Array)
         response = client.safe_request(
           :get,
           remote_url('list'),
-          id: ids
+          params.merge({id: ids})
         )
         load_many(response)
       end
