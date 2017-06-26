@@ -50,7 +50,8 @@ module Amorail
     end
 
     def get(url, params = {})
-      puts "\n\n\n\n\n GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT params=[#{params.to_json}] \n\n\n\n"
+      headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
+      puts "\n\n\n\n\n GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT url=[#{url}] headers=[#{headers.to_json}] params=[#{params.to_json}] \n\n\n\n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
       end
@@ -59,7 +60,7 @@ module Amorail
 
     def post(url, params = {})            
       headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
-      puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST headers=[#{headers.to_json}]  params=[#{params.to_json}]  \n\n\n\n"      
+      puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST url=[#{url}] headers=[#{headers.to_json}]  params=[#{params.to_json}]  \n\n\n\n"      
       response = connect.post(url) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
