@@ -31,6 +31,7 @@ module Amorail
     end
 
     def authorize
+      puts "\n\n\n\n\n authorize  authorize  authorize  authorize  authorize  authorize   \n\n\n\n"
       self.cookies = nil
       response = post(
         Amorail.config.auth_url,
@@ -49,6 +50,7 @@ module Amorail
     end
 
     def get(url, params = {})
+      puts "\n\n\n\n\n GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT params=[#{params.to_json}] \n\n\n\n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
       end
@@ -56,6 +58,7 @@ module Amorail
     end
 
     def post(url, params = {})
+      puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST  params=[#{params.to_json}]  \n\n\n\n"
       response = connect.post(url) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
