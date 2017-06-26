@@ -57,11 +57,13 @@ module Amorail
       handle_response(response)
     end
 
-    def post(url, params = {})
-      puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST  params=[#{params.to_json}]  \n\n\n\n"
+    def post(url, params = {})            
+      headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
+      puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST headers=[#{headers.to_json}]  params=[#{params.to_json}]  \n\n\n\n"      
       response = connect.post(url) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
+        request.headers.merge(headers) if headers
         request.body = params.to_json
       end
       handle_response(response)
