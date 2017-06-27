@@ -57,7 +57,7 @@ module Amorail
         request.headers['Cookie'] = cookies if cookies.present?
         headers&.each { |k, v|
           puts "\n header k=[#{k}] val=[v] \n"
-          request.headers[x.to_s] = v.to_s
+          request.headers[k.to_s] = v.to_s
         }
         # request.headers.merge(headers) if headers
         puts "\n get_r_headers=[#{request.headers.to_json}]\n"
@@ -75,7 +75,7 @@ module Amorail
         request.headers['Content-Type'] = 'application/json'
         headers&.each { |k, v|
           puts "\n header k=[#{k}] val=[v] \n"
-          request.headers[x.to_s] = v.to_s
+          request.headers[k.to_s] = v.to_s
         }
         # request.headers.merge(headers) if headers
         puts "\n post_r_headers=[#{request.headers.to_json}]\n"
