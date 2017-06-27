@@ -54,13 +54,13 @@ module Amorail
       dt = (DateTime.now - 10.minutes).utc
       puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
       headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
-      puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] \n"
+      puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] dt=[#{dt}] \n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.env["HTTP_IF_MODIFIED_SINCE"] = dt
-        request.headers['If-Modified-Since'] = dt
-        request.headers['HTTP_IF_MODIFIED_SINCE'] = dt
-        request.headers['Last-Modified'] = dt
+        request.headers['If-Modified-Since']  = dt
+        # request.headers['HTTP_IF_MODIFIED_SINCE'] = dt
+        # request.headers['Last-Modified'] = dt
         
         # headers&.each { |k, v|
         #   puts "\n header k=[#{k}] val=[v] \n"
