@@ -54,6 +54,8 @@ module Amorail
       puts "\n\n\n\n\n GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT GEEEETT url=[#{url}] headers=[#{headers.to_json}] params=[#{params.to_json}] \n\n\n\n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
+        request.headers.merge(headers) if headers
+        puts "\n get_r_headers=[#{request.headers.to_json}]\n"
       end
       handle_response(response)
     end
@@ -65,6 +67,7 @@ module Amorail
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
         request.headers.merge(headers) if headers
+        puts "\n get_r_headers=[#{request.headers.to_json}]\n"
         request.body = params.to_json
       end
       handle_response(response)
