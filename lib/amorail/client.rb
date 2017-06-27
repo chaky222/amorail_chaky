@@ -50,7 +50,7 @@ module Amorail
     end
 
     def get(url, params = {})
-      dt = 'Tue, 27 Jun 2017 08:56:56'
+      dt = 'Tue, 27 Jun 2017 02:56:56'
       # dt = (DateTime.now.-  10.minutes).httpdate
       # dt = (DateTime.now - 10.minutes).utc
       puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
