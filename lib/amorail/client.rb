@@ -50,25 +50,25 @@ module Amorail
     end
 
     def get(url, params = {})
-      dt = 'Tue, 27 Jun 2017 02:56:56'
+      
       # dt = (DateTime.now.-  10.minutes).httpdate
       # dt = (DateTime.now - 10.minutes).utc
       puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
       headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
-      puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] dt=[#{dt}] \n"
+      puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] \n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         # request.env["HTTP_IF_MODIFIED_SINCE"] = dt
         # request.headers['If-Modified-Since']  = dt
-        request.headers['if-modified-since']  = dt  unless (url.eql? '/private/api/v2/json/accounts/current')
+        # request.headers['if-modified-since']  = dt  unless (url.eql? '/private/api/v2/json/accounts/current')
         
         # request.headers['HTTP_IF_MODIFIED_SINCE'] = dt
         # request.headers['Last-Modified'] = dt
         
-        # headers&.each { |k, v|
-        #   puts "\n header k=[#{k}] val=[v] \n"
-        #   request.headers[k.to_s] = v.to_s
-        # }
+        headers&.each { |k, v|
+          puts "\n header k=[#{k}] val=[v] \n"
+          request.headers[k.to_s] = v.to_s
+        }
         # request.headers.merge(headers) if headers
         puts "\n get_r_headers=[#{request.headers.to_json}] \n\n\n"
       end
