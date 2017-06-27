@@ -70,7 +70,7 @@ module Amorail
         #   request.headers[k.to_s] = v.to_s
         # }
         # request.headers.merge(headers) if headers
-        puts "\n get_r_headers=[#{request.headers.to_json}] \n\n env=[#{request.env.to_json}]\n\n\n"
+        puts "\n get_r_headers=[#{request.headers.to_json}] \n\n\n"
       end
       handle_response(response)
     end
