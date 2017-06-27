@@ -50,15 +50,18 @@ module Amorail
     end
 
     def get(url, params = {})
-      # dt = (DateTime.now.-4.hours).httpdate
-      dt = (DateTime.now - 10.minutes).utc
+      dt = 'Tue, 27 Jun 2017 08:56:56'
+      # dt = (DateTime.now.-  10.minutes).httpdate
+      # dt = (DateTime.now - 10.minutes).utc
       puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
       headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
       puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] dt=[#{dt}] \n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
-        request.env["HTTP_IF_MODIFIED_SINCE"] = dt
-        request.headers['If-Modified-Since']  = dt
+        # request.env["HTTP_IF_MODIFIED_SINCE"] = dt
+        # request.headers['If-Modified-Since']  = dt
+        request.headers['if-modified-since']  = dt  unless (url.eql? '/private/api/v2/json/accounts/current')
+        
         # request.headers['HTTP_IF_MODIFIED_SINCE'] = dt
         # request.headers['Last-Modified'] = dt
         
