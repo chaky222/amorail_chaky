@@ -31,7 +31,6 @@ module Amorail
     end
 
     def authorize
-      puts "\n\n\n\n\n authorize  authorize  authorize  authorize  authorize  authorize   \n\n\n\n"
       self.cookies = nil
       response = post(
         Amorail.config.auth_url,
