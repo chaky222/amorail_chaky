@@ -50,50 +50,22 @@ module Amorail
     end
 
     def get(url, params_in = {})
-      
-      # dt = (DateTime.now.-  10.minutes).httpdate
-      # dt = (DateTime.now - 10.minutes).utc
       headers = (params_in[:headers]) ? params_in.slice(:headers)[:headers] : nil
-      params  = params_in.slice( *params_in.keys.map { |x| (x == :headers) ? nil : x } )
-      # puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
-      # headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
-      puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] \n"
+      params  = params_in.slice( *params_in.keys.map { |x| (x == :headers) ? nil : x } )      
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
-        # request.env["HTTP_IF_MODIFIED_SINCE"] = dt
-        # request.headers['If-Modified-Since']  = dt
-        # request.headers['if-modified-since']  = dt  unless (url.eql? '/private/api/v2/json/accounts/current')
-        
-        # request.headers['HTTP_IF_MODIFIED_SINCE'] = dt
-        # request.headers['Last-Modified'] = dt
-        
-        headers&.each { |k, v|
-          puts "\n header k=[#{k}] val=[v] \n"
-          request.headers[k.to_s] = v.to_s
-        }
-        # request.headers.merge(headers) if headers
-        puts "\n get_r_headers=[#{request.headers.to_json}] \n\n\n"
+        headers&.each { |k, v| request.headers[k.to_s] = v.to_s }
       end
       handle_response(response)
     end
 
     def post(url, params_in = {})
-      # params = params_in.clone     
-      # puts "\n POST POST url=[#{url}] params=[#{params.to_json}] \n"       
-      # headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
       headers = (params_in[:headers]) ? params_in.slice(:headers)[:headers] : nil
       params  = params_in.slice( *params_in.keys.map { |x| (x == :headers) ? nil : x } )
-      puts "\n POST POST headers=[#{headers.to_json}] params=[#{params.to_json}] \n"
-      # puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST url=[#{url}] headers=[#{headers.to_json}]  params=[#{params.to_json}]  \n\n\n\n"      
       response = connect.post(url) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
-        headers&.each { |k, v|
-          puts "\n header k=[#{k}] val=[v] \n"
-          request.headers[k.to_s] = v.to_s
-        }
-        # request.headers.merge(headers) if headers
-        puts "\n post_r_headers=[#{request.headers.to_json}]\n"
+        headers&.each { |k, v| request.headers[k.to_s] = v.to_s }
         request.body = params.to_json
       end
       handle_response(response)
