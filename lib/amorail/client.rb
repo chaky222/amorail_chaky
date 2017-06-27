@@ -49,12 +49,14 @@ module Amorail
       send(method, url, params)
     end
 
-    def get(url, params = {})
+    def get(url, params_in = {})
       
       # dt = (DateTime.now.-  10.minutes).httpdate
       # dt = (DateTime.now - 10.minutes).utc
-      puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
-      headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
+      headers = (params_in[:headers]) ? params_in.slice(:headers)[:headers] : nil
+      params  = params_in.slice( *params_in.keys.map { |x| (x == :headers) ? nil : x } )
+      # puts "\n GEEEETT url=[#{url}] params=[#{params.to_json}] \n"
+      # headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
       puts "\n GEEEETT headers=[#{headers.to_json}] params=[#{params.to_json}] \n"
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
@@ -75,9 +77,12 @@ module Amorail
       handle_response(response)
     end
 
-    def post(url, params = {})     
-      puts "\n POST POST url=[#{url}] params=[#{params.to_json}] \n"       
-      headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
+    def post(url, params_in = {})
+      # params = params_in.clone     
+      # puts "\n POST POST url=[#{url}] params=[#{params.to_json}] \n"       
+      # headers = (params[:headers]) ? params.slice!(*params.keys.map { |x| (x == :headers) ? nil : x })[:headers] : nil
+      headers = (params_in[:headers]) ? params_in.slice(:headers)[:headers] : nil
+      params  = params_in.slice( *params_in.keys.map { |x| (x == :headers) ? nil : x } )
       puts "\n POST POST headers=[#{headers.to_json}] params=[#{params.to_json}] \n"
       # puts "\n\n\n\n\n POST  POST  POST  POST  POST  POST url=[#{url}] headers=[#{headers.to_json}]  params=[#{params.to_json}]  \n\n\n\n"      
       response = connect.post(url) do |request|
